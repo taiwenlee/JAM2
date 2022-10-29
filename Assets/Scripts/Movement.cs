@@ -14,10 +14,14 @@ public class Movement : MonoBehaviour
     [Space]
     [Header("Stats")]
     public float speed = 10;
-    public float jumpForce = 50;
+    public float jumpForce = 12;
     public float slideSpeed = 5;
     public float wallJumpLerp = 10;
     public float dashSpeed = 20;
+    // Liam - Boolean for our added mechanics
+    public bool Modified = false;
+    // Liam - Ground shake fall velocity threshold
+    public float fallspeed = 21;
 
     [Space]
     [Header("Booleans")]
@@ -26,11 +30,15 @@ public class Movement : MonoBehaviour
     public bool wallJumped;
     public bool wallSlide;
     public bool isDashing;
+    // Liam - Boolean for whether you can do extra jump or not
+    public bool doubleJump;
 
     [Space]
 
     private bool groundTouch;
     private bool hasDashed;
+    // Liam - variable getting max fall speed
+    private float maxFall = 0;
 
     public int side = 1;
 
@@ -49,6 +57,45 @@ public class Movement : MonoBehaviour
         anim = GetComponentInChildren<AnimationScript>();
     }
 
+    // Button triggers the stats to go to base version &
+    // disables extra added mechanics
+    public void Base()
+    {
+        speed = 10;
+        jumpForce = 12;
+        slideSpeed = 5;
+        wallJumpLerp = 10;
+        dashSpeed = 20;
+        Modified = false;
+        fallspeed = 21;
+    }
+
+    // Button triggers the stats to go to base version &
+    // enables extra added mechanics
+    public void Polished()
+    {
+        speed = 10;
+        jumpForce = 12;
+        slideSpeed = 5;
+        wallJumpLerp = 10;
+        dashSpeed = 20;
+        Modified = true;
+        fallspeed = 21;
+    }
+
+    // Button triggers the stats to go to modified version &
+    // enables extra added mechanics (WIP)
+    public void Distinct()
+    {
+        speed = 10;
+        jumpForce = 12;
+        slideSpeed = 5;
+        wallJumpLerp = 10;
+        dashSpeed = 20;
+        Modified = true;
+        fallspeed = 21;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -60,6 +107,12 @@ public class Movement : MonoBehaviour
 
         Walk(dir);
         anim.SetHorizontalMovement(x, y, rb.velocity.y);
+
+        // Liam - updates maxFall variable to have highest downward velocity
+        if (rb.velocity.y < maxFall)
+        {
+            maxFall = rb.velocity.y;
+        }
 
         if (coll.onWall && Input.GetButton("Fire3") && canMove)
         {
@@ -101,6 +154,8 @@ public class Movement : MonoBehaviour
             if (x != 0 && !wallGrab)
             {
                 wallSlide = true;
+                // Liam - reset doubleJump boolean to allow double jump again
+                doubleJump = true;
                 WallSlide();
             }
         }
@@ -114,6 +169,12 @@ public class Movement : MonoBehaviour
 
             if (coll.onGround)
                 Jump(Vector2.up, false);
+            // Liam - If in air, Modified enabled, and has charge of jump, do extra jump
+            if (!coll.onGround && !coll.onWall && doubleJump && Modified)
+            {
+                Jump(Vector2.up, false);
+                doubleJump = false;
+            }
             if (coll.onWall && !coll.onGround)
                 WallJump();
         }
@@ -128,6 +189,8 @@ public class Movement : MonoBehaviour
         {
             GroundTouch();
             groundTouch = true;
+            // Liam - reset doubleJump boolean to allow double jump again
+            doubleJump = true;
         }
 
         if(!coll.onGround && groundTouch)
@@ -156,6 +219,14 @@ public class Movement : MonoBehaviour
 
     void GroundTouch()
     {
+        // Liam - if downwards speed is higher than threshold, shake screen on impact
+        if (Modified && maxFall < -fallspeed)
+        {
+            Camera.main.transform.DOComplete();
+            Camera.main.transform.DOShakePosition(.2f, .5f, 14, 90, false, true);
+        }
+        maxFall = 0;
+
         hasDashed = false;
         isDashing = false;
 
