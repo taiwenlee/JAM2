@@ -384,6 +384,10 @@ public class Movement : MonoBehaviour
 
     private void Jump(Vector2 dir, bool wall)
     {
+        // Nile - Call stretch coroutine on jump
+        if (Modified) {
+            StartCoroutine(JumpStretch());
+        }
         slideParticle.transform.parent.localScale = new Vector3(ParticleSide(), 1, 1);
         ParticleSystem particle = wall ? wallJumpParticle : jumpParticle;
 
@@ -424,5 +428,19 @@ public class Movement : MonoBehaviour
     {
         int particleSide = coll.onRightWall ? 1 : -1;
         return particleSide;
+    }
+
+    // Nile - Coroutine for stretching animation
+    IEnumerator JumpStretch() {
+        for (float scale = 1f; scale < 2f; scale += 0.1f) {
+            transform.localScale = new Vector3(1/scale, scale, 1);
+            yield return new WaitForSeconds(0.01f);
+        }
+
+        for (float scale = 2f; scale > 1f; scale -= 0.1f) {
+            transform.localScale = new Vector3(1/scale, scale, 1);
+            yield return new WaitForSeconds(0.01f);
+        }
+        transform.localScale = new Vector3(1, 1, 1);
     }
 }
