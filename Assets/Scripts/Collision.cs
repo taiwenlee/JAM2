@@ -53,7 +53,7 @@ public class Collision : MonoBehaviour
 
         var positions = new Vector2[] { bottomOffset, rightOffset, leftOffset };
 
-        Gizmos.DrawWireSphere((Vector2)transform.position + bottomOffset, collisionRadius);
+        Gizmos.DrawWireCube((Vector2)transform.position + bottomOffset, new Vector2(groundCollisionWidth, groundCollisionHeight));
         Gizmos.DrawWireSphere((Vector2)transform.position + rightOffset, collisionRadius);
         Gizmos.DrawWireSphere((Vector2)transform.position + leftOffset, collisionRadius);
     }
