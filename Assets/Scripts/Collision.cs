@@ -21,6 +21,7 @@ public class Collision : MonoBehaviour
     [Header("Collision")]
 
     public float collisionRadius = 0.25f;
+    // Tai Wen - Added new variables to control the ground collision box
     public float groundCollisionWidth = 0.5f;
     public float groundCollisionHeight = 0.1f;
     public Vector2 bottomOffset, rightOffset, leftOffset;
