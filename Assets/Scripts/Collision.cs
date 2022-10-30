@@ -37,8 +37,9 @@ public class Collision : MonoBehaviour
     void Update()
     {
         //Tai Wen - Modified ground collision detection to remedy edge cases (change from circle to area overlap)
-        onGround = Physics2D.OverlapArea((Vector2)transform.position + bottomOffset + new Vector2(-groundCollisionWidth / 2, -groundCollisionHeight / 2),
-                (Vector2)transform.position + bottomOffset + new Vector2(groundCollisionWidth / 2, groundCollisionHeight / 2), groundLayer);
+        onGround = GetComponent<Movement>().Modified ? Physics2D.OverlapArea((Vector2)transform.position + bottomOffset + new Vector2(-groundCollisionWidth / 2, -groundCollisionHeight / 2),
+            (Vector2)transform.position + bottomOffset + new Vector2(groundCollisionWidth / 2, groundCollisionHeight / 2), groundLayer)
+            : Physics2D.OverlapCircle((Vector2)transform.position + bottomOffset, collisionRadius, groundLayer);
         onWall = Physics2D.OverlapCircle((Vector2)transform.position + rightOffset, collisionRadius, groundLayer)
             || Physics2D.OverlapCircle((Vector2)transform.position + leftOffset, collisionRadius, groundLayer);
 
@@ -55,7 +56,14 @@ public class Collision : MonoBehaviour
         var positions = new Vector2[] { bottomOffset, rightOffset, leftOffset };
 
         // Tai Wen - Changed the wire frame for the ground collision (circle to rectangle)
-        Gizmos.DrawWireCube((Vector2)transform.position + bottomOffset, new Vector2(groundCollisionWidth, groundCollisionHeight));
+        if (GetComponent<Movement>().Modified)
+        {
+            Gizmos.DrawWireCube((Vector2)transform.position + bottomOffset, new Vector2(groundCollisionWidth, groundCollisionHeight));
+        }
+        else
+        {
+            Gizmos.DrawWireSphere((Vector2)transform.position + bottomOffset, collisionRadius);
+        }
         Gizmos.DrawWireSphere((Vector2)transform.position + rightOffset, collisionRadius);
         Gizmos.DrawWireSphere((Vector2)transform.position + leftOffset, collisionRadius);
     }
