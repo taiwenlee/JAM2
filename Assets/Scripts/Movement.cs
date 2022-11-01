@@ -11,8 +11,11 @@ public class Movement : MonoBehaviour
     public Rigidbody2D rb;
     private AnimationScript anim;
     // Zac - Added in audiosources unity to pull from
-    AudioSource audioSrc;
-    // AudioSource dashSrc;
+    // public AudioClip Dashing;
+    // public AudioClip JumpSfx;
+    public AudioClip Ground_Hit;
+    // public AudioClip Climbing;
+    AudioSource audioSource;
 
     [Space]
     [Header("Stats")]
@@ -67,9 +70,9 @@ public class Movement : MonoBehaviour
         coll = GetComponent<Collision>();
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponentInChildren<AnimationScript>();
-        // Zac - GetComponents to actually get the audio sources
-        audioSrc = GetComponent<AudioSource> ();
-        // dashSrc = GetComponent<AudioSource> ();
+        // Zac - GetComponent to actually get the audio sources
+        audioSource = GetComponent<AudioSource> ();
+        // audioClip.PlayOneShot(Dashing);
         Base();
     }
 
@@ -243,7 +246,7 @@ public class Movement : MonoBehaviour
         {
             GroundTouch();
             // Zac- Where the ground hit audio will play
-            audioSrc.Play();
+            audioSource.PlayOneShot(Ground_Hit);
             groundTouch = true;
             // Liam - reset doubleJump boolean to allow double jump again
             doubleJump = true;
@@ -281,7 +284,7 @@ public class Movement : MonoBehaviour
             Camera.main.transform.DOComplete();
             Camera.main.transform.DOShakePosition(.2f, .5f, 14, 90, false, true);
             // Zac- Where the ground hit audio will play
-            audioSrc.Play ();
+            audioSource.PlayOneShot(Ground_Hit);
         }
         maxFall = 0;
 
@@ -303,7 +306,7 @@ public class Movement : MonoBehaviour
 
         anim.SetTrigger("dash");
         // Zac - Where the theoretical dash sfx would play
-       // dashSrc.Play ();
+       // audioClip.PlayOneShot(Dashing);
 
         rb.velocity = Vector2.zero;
         Vector2 dir = new Vector2(x, y);
