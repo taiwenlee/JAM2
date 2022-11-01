@@ -236,6 +236,8 @@ public class Movement : MonoBehaviour
         if (coll.onGround && !groundTouch)
         {
             GroundTouch();
+            // audioGround_Hit.Play();
+            // audioGround_Hit.Stop();
             groundTouch = true;
             // Liam - reset doubleJump boolean to allow double jump again
             doubleJump = true;
@@ -272,6 +274,8 @@ public class Movement : MonoBehaviour
         {
             Camera.main.transform.DOComplete();
             Camera.main.transform.DOShakePosition(.2f, .5f, 14, 90, false, true);
+            // audioGround_Hit.Play ();
+            // audioGround_Hit.Stop ();
         }
         maxFall = 0;
 
@@ -292,6 +296,8 @@ public class Movement : MonoBehaviour
         hasDashed = true;
 
         anim.SetTrigger("dash");
+        // audioDash.Play ();
+        // audioDash.Stop ();
 
         rb.velocity = Vector2.zero;
         Vector2 dir = new Vector2(x, y);
