@@ -46,7 +46,16 @@ public class Collision : MonoBehaviour
         onRightWall = Physics2D.OverlapCircle((Vector2)transform.position + rightOffset, collisionRadius, groundLayer);
         onLeftWall = Physics2D.OverlapCircle((Vector2)transform.position + leftOffset, collisionRadius, groundLayer);
 
-        wallSide = onRightWall ? -1 : 1;
+
+        // Tai Wen - Modified to keep memory of wall side when off wall.
+        if(onRightWall)
+        {
+            wallSide = -1;
+        }
+        else if(onLeftWall)
+        {
+            wallSide = 1;
+        }
     }
 
     void OnDrawGizmos()
