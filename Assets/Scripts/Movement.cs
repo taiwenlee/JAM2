@@ -104,10 +104,10 @@ public class Movement : MonoBehaviour
     public void Polished()
     {
         speed = 10;
-        jumpForce = 12;
+        jumpForce = 16;
         slideSpeed = 1;
         wallJumpLerp = 5;
-        dashSpeed = 40;
+        dashSpeed = 60;
         Modified = true;
         fallspeed = 21;
         cyototeTime = 0.05f;
@@ -121,10 +121,10 @@ public class Movement : MonoBehaviour
     public void Distinct()
     {
         speed = 10;
-        jumpForce = 12;
+        jumpForce = 16;
         slideSpeed = 1;
         wallJumpLerp = 5;
-        dashSpeed = 40;
+        dashSpeed = 60;
         Modified = true;
         fallspeed = 21;
         cyototeTime = 0.05f;
@@ -181,6 +181,11 @@ public class Movement : MonoBehaviour
                 anim.Flip(side * -1);
             wallGrab = true;
             wallSlide = false;
+            //Noah - Wall resets Dash, make it so dashing up and down walls is slower
+            if(Modified){
+                dashSpeed = 40;
+                hasDashed =  false;
+            }
         }
 
         // Tai Wen - Set counter when player climbs off a wall 
@@ -201,6 +206,10 @@ public class Movement : MonoBehaviour
         {
             wallGrab = false;
             wallSlide = false;
+            //Noah - Set Dash speed back to normal when not on wall
+            if(Modified){
+                dashSpeed = 60;
+            }
         }
 
         if (coll.onGround && !isDashing)
@@ -249,12 +258,12 @@ public class Movement : MonoBehaviour
                 jumpBufferCounter = -1f;   // Tai Wen - resets jump buffer counter
             }
             // Liam - If in air, Modified enabled, and has charge of jump, do extra jump
-            else if (!coll.onGround && !coll.onWall && doubleJump && Modified)
+            /*else if (!coll.onGround && !coll.onWall && doubleJump && Modified)
             {
                 Jump(Vector2.up, false);
                 doubleJump = false;
                 jumpBufferCounter = -1f;  // Tai Wen - resets jump buffer counter
-            }
+            }*/
             if (coll.onWall && !coll.onGround)
             {
                 WallJump();
@@ -263,9 +272,14 @@ public class Movement : MonoBehaviour
         }
 
         if (Input.GetButtonDown("Fire1") && !hasDashed)
-        {
-            if (xRaw != 0 || yRaw != 0)
+        {   
+            //Noah and Liam - Dash while not moving
+            if(Modified && xRaw == 0 && yRaw == 0){
+                Dash(40*side, 4);
+            }else if (xRaw != 0 || yRaw != 0){
                 Dash(xRaw, yRaw);
+            }
+            
         }
 
         if (coll.onGround && !groundTouch)
@@ -382,8 +396,13 @@ public class Movement : MonoBehaviour
 
         Vector2 wallDir = coll.onRightWall ? Vector2.left : Vector2.right;
 
-        Jump((Vector2.up / 0.8f + wallDir / 1.7f), true);
-        // Qinglan - consistent jumping in wall
+
+        if(Modified){
+            Jump((Vector2.up / 1.0f + wallDir / 1.7f), true);
+        } else{
+            Jump((Vector2.up / 1.5f + wallDir / 1.5f), true);
+        }
+        // Qinglan - consistent jumping on wall
 
         wallJumped = true;
     }
