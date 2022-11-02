@@ -253,10 +253,6 @@ public class Movement : MonoBehaviour
         if (jumpBufferCounter >= 0f)
         {
             anim.SetTrigger("jump");
-            if (Modified)
-            {
-                audioSource.PlayOneShot(clip);
-            }
 
             // Tai Wen - changed from checking for ground collision to checking for cyotote counter
             if (cyototeTimeCounter >= 0f)
@@ -462,9 +458,11 @@ public class Movement : MonoBehaviour
     private void Jump(Vector2 dir, bool wall)
     {
         // Nile - Call stretch coroutine on jump
+        // Zac - Where the jump sfx would play
         if (Modified)
         {
             StartCoroutine(JumpStretch());
+            audioSource.PlayOneShot(clip);
         }
         slideParticle.transform.parent.localScale = new Vector3(ParticleSide(), 1, 1);
         ParticleSystem particle = wall ? wallJumpParticle : jumpParticle;
