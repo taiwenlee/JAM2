@@ -11,11 +11,11 @@ public class Movement : MonoBehaviour
     public Rigidbody2D rb;
     private AnimationScript anim;
     // Zac - Added in audiosources unity to pull from
-    // public AudioClip Dashing;
-    // public AudioClip JumpSfx;
-    public AudioClip Ground_Hit;
-    // public AudioClip Climbing;
-    AudioSource audioSource;
+    public AudioSource audioSource;
+    public AudioClip clip;
+    public AudioClip clip2;
+    public AudioClip clip3;
+    public float volume;
 
     [Space]
     [Header("Stats")]
@@ -72,7 +72,6 @@ public class Movement : MonoBehaviour
         anim = GetComponentInChildren<AnimationScript>();
         // Zac - GetComponent to actually get the audio sources
         audioSource = GetComponent<AudioSource> ();
-        // audioClip.PlayOneShot(Dashing);
         Base();
     }
 
@@ -225,6 +224,11 @@ public class Movement : MonoBehaviour
         if (jumpBufferCounter >= 0f)
         {
             anim.SetTrigger("jump");
+                        if (Modified)
+            {
+                audioSource.PlayOneShot(clip);
+            }
+
             // Tai Wen - changed from checking for ground collision to checking for cyotote counter
             if (cyototeTimeCounter >= 0f)
             {
@@ -259,8 +263,6 @@ public class Movement : MonoBehaviour
         if (coll.onGround && !groundTouch)
         {
             GroundTouch();
-            // Zac- Where the ground hit audio will play
-            audioSource.PlayOneShot(Ground_Hit);
             groundTouch = true;
             // Liam - reset doubleJump boolean to allow double jump again
             doubleJump = true;
@@ -298,7 +300,7 @@ public class Movement : MonoBehaviour
             Camera.main.transform.DOComplete();
             Camera.main.transform.DOShakePosition(.2f, .5f, 14, 90, false, true);
             // Zac- Where the ground hit audio will play
-            audioSource.PlayOneShot(Ground_Hit);
+            audioSource.Play();
         }
         maxFall = 0;
 
@@ -340,6 +342,11 @@ public class Movement : MonoBehaviour
         GetComponent<BetterJumping>().enabled = false;
         wallJumped = true;
         isDashing = true;
+        if (Modified && isDashing)
+        {
+            audioSource.PlayOneShot(clip2);
+        }
+
 
         yield return new WaitForSeconds(.3f);
 

@@ -4965,7 +4965,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
-  Ground_Hit: {fileID: 0}
+  audioSource: {fileID: 1707060607}
+  clip: {fileID: 8300000, guid: 428e4ecb684b0cb4ba882139962230c1, type: 3}
+  clip2: {fileID: 8300000, guid: e5d7a0e17fdb35a47ba0ceb72b40719a, type: 3}
+  clip3: {fileID: 0}
+  volume: 0
   speed: 7
   jumpForce: 12
   slideSpeed: 1
@@ -4975,8 +4979,6 @@ MonoBehaviour:
   fallspeed: 21
   cyototeTime: 0
   jumpBufferTime: 0
-  edgeNudgeStrength: 0
-  edgeNudgeTime: 0
   canMove: 1
   wallGrab: 0
   wallJumped: 0
