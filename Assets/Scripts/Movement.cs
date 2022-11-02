@@ -248,7 +248,7 @@ public class Movement : MonoBehaviour
             // Zac - Only plays audioSource if code is modified
             if (Modified)
             {
-                audioSource.PlayOneShot(clip);
+                audioSource.PlayOneShot(clip); 
             }
             // Tai Wen - changed from checking for ground collision to checking for cyotote counter
             if (cyototeTimeCounter >= 0f)
