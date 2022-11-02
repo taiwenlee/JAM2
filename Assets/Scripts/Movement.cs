@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -32,6 +32,10 @@ public class Movement : MonoBehaviour
     public float cyototeTime = 0f;
     // Tai Wen - Time given for players to jump before touching the ground
     public float jumpBufferTime = 0f;
+    // Tai Wen - Strength given to the edge nudge
+    public float edgeNudgeStrength = 0f;
+    // Tai Wen - Time given for the edge nudge to be active
+    public float edgeNudgeTime = 0f;
 
     [Space]
     [Header("Booleans")]
@@ -53,6 +57,8 @@ public class Movement : MonoBehaviour
     private float cyototeTimeCounter;
     // Tai Wen - counter for jump buffer time
     private float jumpBufferCounter;
+    // Tai Wen - counter for edge nudge time
+    private float edgeNudgeCounter;
 
 
     public int side = 1;
@@ -71,7 +77,7 @@ public class Movement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponentInChildren<AnimationScript>();
         // Zac - GetComponent to actually get the audio sources
-        audioSource = GetComponent<AudioSource> ();
+        audioSource = GetComponent<AudioSource>();
         Base();
     }
 
@@ -88,6 +94,8 @@ public class Movement : MonoBehaviour
         fallspeed = 21;
         cyototeTime = 0f;
         jumpBufferTime = 0f;
+        edgeNudgeStrength = 0f;
+        edgeNudgeTime = 0f;
     }
 
     // Button triggers the stats to go to base version &
@@ -103,6 +111,8 @@ public class Movement : MonoBehaviour
         fallspeed = 21;
         cyototeTime = 0.05f;
         jumpBufferTime = 0.3f;
+        edgeNudgeStrength = 10f;
+        edgeNudgeTime = 0.05f;
     }
 
     // Button triggers the stats to go to modified version &
@@ -118,6 +128,8 @@ public class Movement : MonoBehaviour
         fallspeed = 21;
         cyototeTime = 0.05f;
         jumpBufferTime = 0.3f;
+        edgeNudgeStrength = 10f;
+        edgeNudgeTime = 0.05f;
     }
 
     // Update is called once per frame
@@ -169,10 +181,26 @@ public class Movement : MonoBehaviour
             wallGrab = true;
             wallSlide = false;
             //Noah - Wall resets Dash, make it so dashing up and down walls is slower
-            if(Modified){
+            if (Modified)
+            {
                 dashSpeed = 40;
-                hasDashed =  false;
+                hasDashed = false;
             }
+        }
+
+        // Tai Wen - Set counter when player climbs off a wall 
+        if (!coll.onWall && wallGrab == true && rb.velocity.y > 0 && Modified)
+        {
+            edgeNudgeCounter = edgeNudgeTime;
+        }
+
+        // Tai Wen - While counter is active, nudge player upwards towards the wall
+        if (edgeNudgeCounter > 0 && Modified)
+        {
+            edgeNudgeCounter -= Time.deltaTime;
+            rb.velocity = new Vector2(-coll.wallSide * edgeNudgeStrength, edgeNudgeStrength);
+            if (side != coll.wallSide)
+                anim.Flip(-coll.wallSide);
         }
 
         if (Input.GetButtonUp("Fire3") || !coll.onWall || !canMove)
@@ -180,7 +208,8 @@ public class Movement : MonoBehaviour
             wallGrab = false;
             wallSlide = false;
             //Noah - Set Dash speed back to normal when not on wall
-            if(Modified){
+            if (Modified)
+            {
                 dashSpeed = 60;
             }
         }
@@ -224,7 +253,7 @@ public class Movement : MonoBehaviour
         if (jumpBufferCounter >= 0f)
         {
             anim.SetTrigger("jump");
-                        if (Modified)
+            if (Modified)
             {
                 audioSource.PlayOneShot(clip);
             }
@@ -250,14 +279,17 @@ public class Movement : MonoBehaviour
         }
 
         if (Input.GetButtonDown("Fire1") && !hasDashed)
-        {   
+        {
             //Noah and Liam - Dash while not moving
-            if(Modified && xRaw == 0 && yRaw == 0){
-                Dash(40*side, 4);
-            }else if (xRaw != 0 || yRaw != 0){
+            if (Modified && xRaw == 0 && yRaw == 0)
+            {
+                Dash(40 * side, 4);
+            }
+            else if (xRaw != 0 || yRaw != 0)
+            {
                 Dash(xRaw, yRaw);
             }
-            
+
         }
 
         if (coll.onGround && !groundTouch)
@@ -322,7 +354,7 @@ public class Movement : MonoBehaviour
 
         anim.SetTrigger("dash");
         // Zac - Where the theoretical dash sfx would play
-       // audioClip.PlayOneShot(Dashing);
+        // audioClip.PlayOneShot(Dashing);
 
         rb.velocity = Vector2.zero;
         Vector2 dir = new Vector2(x, y);
@@ -378,9 +410,12 @@ public class Movement : MonoBehaviour
         Vector2 wallDir = coll.onRightWall ? Vector2.left : Vector2.right;
 
 
-        if(Modified){
+        if (Modified)
+        {
             Jump((Vector2.up / 1.0f + wallDir / 1.7f), true);
-        } else{
+        }
+        else
+        {
             Jump((Vector2.up / 1.5f + wallDir / 1.5f), true);
         }
         // Qinglan - consistent jumping on wall
@@ -427,7 +462,8 @@ public class Movement : MonoBehaviour
     private void Jump(Vector2 dir, bool wall)
     {
         // Nile - Call stretch coroutine on jump
-        if (Modified) {
+        if (Modified)
+        {
             StartCoroutine(JumpStretch());
         }
         slideParticle.transform.parent.localScale = new Vector3(ParticleSide(), 1, 1);
@@ -473,14 +509,17 @@ public class Movement : MonoBehaviour
     }
 
     // Nile - Coroutine for stretching animation
-    IEnumerator JumpStretch() {
-        for (float scale = 1f; scale < 2f; scale += 0.1f) {
-            transform.localScale = new Vector3(1/scale, scale, 1);
+    IEnumerator JumpStretch()
+    {
+        for (float scale = 1f; scale < 2f; scale += 0.1f)
+        {
+            transform.localScale = new Vector3(1 / scale, scale, 1);
             yield return new WaitForSeconds(0.01f);
         }
 
-        for (float scale = 2f; scale > 1f; scale -= 0.1f) {
-            transform.localScale = new Vector3(1/scale, scale, 1);
+        for (float scale = 2f; scale > 1f; scale -= 0.1f)
+        {
+            transform.localScale = new Vector3(1 / scale, scale, 1);
             yield return new WaitForSeconds(0.01f);
         }
         transform.localScale = new Vector3(1, 1, 1);
