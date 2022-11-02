@@ -32,10 +32,6 @@ public class Movement : MonoBehaviour
     public float cyototeTime = 0f;
     // Tai Wen - Time given for players to jump before touching the ground
     public float jumpBufferTime = 0f;
-    // Tai Wen - Strength given to the edge nudge
-    public float edgeNudgeStrength = 0f;
-    // Tai Wen - Time given for the edge nudge to be active
-    public float edgeNudgeTime = 0f;
 
     [Space]
     [Header("Booleans")]
@@ -57,8 +53,6 @@ public class Movement : MonoBehaviour
     private float cyototeTimeCounter;
     // Tai Wen - counter for jump buffer time
     private float jumpBufferCounter;
-    // Tai Wen - counter for edge nudge time
-    private float edgeNudgeCounter;
 
 
     public int side = 1;
@@ -95,8 +89,6 @@ public class Movement : MonoBehaviour
         fallspeed = 21;
         cyototeTime = 0f;
         jumpBufferTime = 0f;
-        edgeNudgeStrength = 0f;
-        edgeNudgeTime = 0f;
     }
 
     // Button triggers the stats to go to base version &
@@ -112,8 +104,6 @@ public class Movement : MonoBehaviour
         fallspeed = 21;
         cyototeTime = 0.05f;
         jumpBufferTime = 0.3f;
-        edgeNudgeStrength = 10f;
-        edgeNudgeTime = 0.05f;
     }
 
     // Button triggers the stats to go to modified version &
@@ -129,8 +119,6 @@ public class Movement : MonoBehaviour
         fallspeed = 21;
         cyototeTime = 0.05f;
         jumpBufferTime = 0.3f;
-        edgeNudgeStrength = 10f;
-        edgeNudgeTime = 0.05f;
     }
 
     // Update is called once per frame
@@ -181,20 +169,6 @@ public class Movement : MonoBehaviour
                 anim.Flip(side * -1);
             wallGrab = true;
             wallSlide = false;
-        }
-
-        // Tai Wen - Set counter when player climbs off a wall 
-        if(!coll.onWall && wallGrab == true && rb.velocity.y > 0 && Modified) 
-        {
-            edgeNudgeCounter = edgeNudgeTime;
-        }
-
-        // Tai Wen - While counter is active, nudge player upwards towards the wall
-        if(edgeNudgeCounter > 0 && Modified) {
-            edgeNudgeCounter -= Time.deltaTime;
-            rb.velocity = new Vector2(-coll.wallSide * edgeNudgeStrength, edgeNudgeStrength);
-            if (side != coll.wallSide)
-                anim.Flip(side);
         }
 
         if (Input.GetButtonUp("Fire3") || !coll.onWall || !canMove)
@@ -382,8 +356,7 @@ public class Movement : MonoBehaviour
 
         Vector2 wallDir = coll.onRightWall ? Vector2.left : Vector2.right;
 
-        Jump((Vector2.up / 0.8f + wallDir / 1.7f), true);
-        // Qinglan - consistent jumping in wall
+        Jump((Vector2.up / 1.5f + wallDir / 1.5f), true);
 
         wallJumped = true;
     }
