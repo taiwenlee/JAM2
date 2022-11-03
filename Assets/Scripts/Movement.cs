@@ -108,10 +108,10 @@ public class Movement : MonoBehaviour
     public void Polished()
     {
         speed = 10;
-        jumpForce = 16;
+        jumpForce = 14;
         slideSpeed = 1;
         wallJumpLerp = 5;
-        dashSpeed = 60;
+        dashSpeed = 50;
         Modified = true;
         fallspeed = 21;
         cyototeTime = 0.05f;
@@ -125,10 +125,10 @@ public class Movement : MonoBehaviour
     public void Distinct()
     {
         speed = 10;
-        jumpForce = 16;
+        jumpForce = 14;
         slideSpeed = 1;
         wallJumpLerp = 5;
-        dashSpeed = 60;
+        dashSpeed = 50;
         Modified = true;
         fallspeed = 21;
         cyototeTime = 0.05f;
@@ -151,7 +151,7 @@ public class Movement : MonoBehaviour
 
         //Elizabeth - if dash has been used, turn character red
         if(Modified && hasDashed) {
-            renderer.color = Color.red;
+            renderer.color = Color.cyan;
         }
         else {
             renderer.color = Color.white;
@@ -234,7 +234,7 @@ public class Movement : MonoBehaviour
             //Noah - Set Dash speed back to normal when not on wall
             if (Modified)
             {
-                dashSpeed = 60;
+                dashSpeed = 50;
             }
         }
 
@@ -432,7 +432,7 @@ public class Movement : MonoBehaviour
 
         if (Modified)
         {
-            Jump((Vector2.up / 1.0f + wallDir / 1.7f), true);
+            Jump((Vector2.up / 1.0f + wallDir / 4.5f), true);
         }
         else
         {
@@ -545,5 +545,16 @@ public class Movement : MonoBehaviour
             yield return new WaitForSeconds(0.01f);
         }
         transform.localScale = new Vector3(1, 1, 1);
+    }
+
+    //Noah - Teleport player between levels
+    public void TeleportLevel()
+    {
+        gameObject.transform.position = new Vector3(-9.5f, -45f, 0f);
+    }
+
+    public void TeleportTutorial()
+    {
+        gameObject.transform.position = new Vector3(-9.5f, -3f, 0f);
     }
 }
