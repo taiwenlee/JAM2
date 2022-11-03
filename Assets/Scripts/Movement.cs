@@ -28,6 +28,7 @@ public class Movement : MonoBehaviour
     public float dashSpeed = 20;
     // Liam - Boolean for our added mechanics
     public bool Modified = false;
+    public bool ModifiedD = false;
     // Liam - Ground shake fall velocity threshold
     public float fallspeed = 21;
     // Tai Wen - Time given for players to jump after falling off a platform
@@ -113,10 +114,11 @@ public class Movement : MonoBehaviour
         wallJumpLerp = 5;
         dashSpeed = 50;
         Modified = true;
+        ModifiedD = false;
         fallspeed = 21;
         cyototeTime = 0.05f;
         jumpBufferTime = 0.3f;
-        edgeNudgeStrength = 10f;
+        edgeNudgeStrength = 7f;
         edgeNudgeTime = 0.05f;
     }
 
@@ -124,17 +126,18 @@ public class Movement : MonoBehaviour
     // enables extra added mechanics (WIP)
     public void Distinct()
     {
-        speed = 10;
-        jumpForce = 14;
-        slideSpeed = 1;
+        speed = 12;
+        jumpForce = 18;
+        slideSpeed = 5;
         wallJumpLerp = 5;
-        dashSpeed = 50;
-        Modified = true;
-        fallspeed = 21;
+        dashSpeed = 70;
+        ModifiedD = true;
+        Modified = false;
+        fallspeed = 18;
         cyototeTime = 0.05f;
         jumpBufferTime = 0.3f;
         edgeNudgeStrength = 10f;
-        edgeNudgeTime = 0.05f;
+        edgeNudgeTime = 0.01f;
     }
 
     // Update is called once per frame
@@ -150,7 +153,7 @@ public class Movement : MonoBehaviour
         anim.SetHorizontalMovement(x, y, rb.velocity.y);
 
         //Elizabeth - if dash has been used, turn character red
-        if(Modified && hasDashed) {
+        if((Modified || ModifiedD) && hasDashed) {
             renderer.color = Color.cyan;
         }
         else {
@@ -158,7 +161,7 @@ public class Movement : MonoBehaviour
         } 
 
         //Elizabeth - Changes control scheme when modified or not
-        if(Modified) {
+        if(Modified || ModifiedD) {
             climbButton = "Fire1";
             dashButton = "Fire3";
         }
@@ -205,7 +208,7 @@ public class Movement : MonoBehaviour
             wallGrab = true;
             wallSlide = false;
             //Noah - Wall resets Dash, make it so dashing up and down walls is slower
-            if (Modified)
+            if (ModifiedD)
             {
                 dashSpeed = 40;
                 hasDashed = false;
@@ -213,13 +216,13 @@ public class Movement : MonoBehaviour
         }
 
         // Tai Wen - Set counter when player climbs off a wall 
-        if (!coll.onWall && wallGrab == true && rb.velocity.y > 0 && Modified)
+        if (!coll.onWall && wallGrab == true && rb.velocity.y > 0 && (Modified || ModifiedD))
         {
             edgeNudgeCounter = edgeNudgeTime;
         }
 
         // Tai Wen - While counter is active, nudge player upwards towards the wall
-        if (edgeNudgeCounter > 0 && Modified)
+        if (edgeNudgeCounter > 0 && (Modified || ModifiedD))
         {
             edgeNudgeCounter -= Time.deltaTime;
             rb.velocity = new Vector2(-coll.wallSide * edgeNudgeStrength, edgeNudgeStrength);
@@ -235,6 +238,10 @@ public class Movement : MonoBehaviour
             if (Modified)
             {
                 dashSpeed = 50;
+            }
+            if (ModifiedD)
+            {
+                dashSpeed = 70;
             }
         }
 
@@ -252,7 +259,11 @@ public class Movement : MonoBehaviour
 
             float speedModifier = y > 0 ? .5f : 1;
 
-            rb.velocity = new Vector2(rb.velocity.x, y * (speed * speedModifier));
+            rb.velocity = new Vector2(rb.velocity.x, y * (speed * (speedModifier)));
+
+            if(ModifiedD){
+                rb.velocity = new Vector2(rb.velocity.x, y * (speed * (speedModifier+.25f)));
+            }
         }
         else
         {
@@ -301,7 +312,7 @@ public class Movement : MonoBehaviour
         if (Input.GetButtonDown(dashButton) && !hasDashed)
         {
             //Noah and Liam - Dash while not moving
-            if (Modified && xRaw == 0 && yRaw == 0)
+            if ((Modified || ModifiedD) && xRaw == 0 && yRaw == 0)
             {
                 Dash(40 * side, 4);
             }
@@ -347,7 +358,7 @@ public class Movement : MonoBehaviour
     void GroundTouch()
     {
         // Liam - if downwards speed is higher than threshold, shake screen on impact
-        if (Modified && maxFall < -fallspeed)
+        if ((Modified || ModifiedD) && maxFall < -fallspeed)
         {
             Camera.main.transform.DOComplete();
             Camera.main.transform.DOShakePosition(.2f, .5f, 14, 90, false, true);
@@ -394,7 +405,7 @@ public class Movement : MonoBehaviour
         GetComponent<BetterJumping>().enabled = false;
         wallJumped = true;
         isDashing = true;
-        if (Modified && isDashing)
+        if ((Modified || ModifiedD) && isDashing)
         {
             audioSource.PlayOneShot(clip2);
         }
@@ -430,7 +441,7 @@ public class Movement : MonoBehaviour
         Vector2 wallDir = coll.onRightWall ? Vector2.left : Vector2.right;
 
 
-        if (Modified)
+        if (Modified || ModifiedD)
         {
             Jump((Vector2.up / 1.0f + wallDir / 4.5f), true);
         }
@@ -483,7 +494,7 @@ public class Movement : MonoBehaviour
     {
         // Nile - Call stretch coroutine on jump
         // Zac - Where the jump sfx would play
-        if (Modified)
+        if (Modified || ModifiedD)
         {
             StartCoroutine(JumpStretch());
             audioSource.PlayOneShot(clip);

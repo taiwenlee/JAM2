@@ -30,6 +30,7 @@ public class AnimationScript : MonoBehaviour
         anim.SetBool("isDashing", move.isDashing);
         //Elizabeth - Set animation changes to trigger if modified version enable
         anim.SetBool("Modified", move.Modified);
+        anim.SetBool("Modified", move.ModifiedD);
 
     }
 
