@@ -36,6 +36,9 @@ public class Movement : MonoBehaviour
     public float edgeNudgeStrength = 0f;
     // Tai Wen - Time given for the edge nudge to be active
     public float edgeNudgeTime = 0f;
+    //Elizabeth - variables for different control schemes when modified/unmodified
+    public String climbButton;
+    public String dashButton;
 
     [Space]
     [Header("Booleans")]
@@ -144,6 +147,17 @@ public class Movement : MonoBehaviour
         Walk(dir);
         anim.SetHorizontalMovement(x, y, rb.velocity.y);
 
+        //Elizabeth - Changes control scheme when modified or not
+        if(Modified) {
+            climbButton = "Fire1";
+            dashButton = "Fire3";
+        }
+        else{
+            climbButton = "Fire4";
+            dashButton = "Fire5";
+
+        }
+
         // Tai Wen - updates cyotote time counter
         if (coll.onGround)
         {
@@ -174,7 +188,7 @@ public class Movement : MonoBehaviour
             maxFall = rb.velocity.y;
         }
 
-        if (coll.onWall && Input.GetButton("Fire3") && canMove)
+        if (coll.onWall && Input.GetButton(dashButton) && canMove) //Elizabeth - using dashButton/climbButton instead of string name, to allow control change
         {
             if (side != coll.wallSide)
                 anim.Flip(side * -1);
@@ -203,7 +217,7 @@ public class Movement : MonoBehaviour
                 anim.Flip(-coll.wallSide);
         }
 
-        if (Input.GetButtonUp("Fire3") || !coll.onWall || !canMove)
+        if (Input.GetButtonUp(dashButton) || !coll.onWall || !canMove)
         {
             wallGrab = false;
             wallSlide = false;
@@ -274,7 +288,7 @@ public class Movement : MonoBehaviour
             }
         }
 
-        if (Input.GetButtonDown("Fire1") && !hasDashed)
+        if (Input.GetButtonDown(climbButton) && !hasDashed)
         {
             //Noah and Liam - Dash while not moving
             if (Modified && xRaw == 0 && yRaw == 0)
