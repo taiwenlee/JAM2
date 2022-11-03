@@ -153,8 +153,8 @@ public class Movement : MonoBehaviour
             dashButton = "Fire3";
         }
         else{
-            climbButton = "Fire4";
-            dashButton = "Fire5";
+            climbButton = "Fire5";
+            dashButton = "Fire4";
 
         }
 
@@ -188,7 +188,7 @@ public class Movement : MonoBehaviour
             maxFall = rb.velocity.y;
         }
 
-        if (coll.onWall && Input.GetButton(dashButton) && canMove) //Elizabeth - using dashButton/climbButton instead of string name, to allow control change
+        if (coll.onWall && Input.GetButton(climbButton) && canMove) //Elizabeth - using dashButton/climbButton instead of string name, to allow control changes
         {
             if (side != coll.wallSide)
                 anim.Flip(side * -1);
@@ -217,7 +217,7 @@ public class Movement : MonoBehaviour
                 anim.Flip(-coll.wallSide);
         }
 
-        if (Input.GetButtonUp(dashButton) || !coll.onWall || !canMove)
+        if (Input.GetButtonUp(climbButton) || !coll.onWall || !canMove)
         {
             wallGrab = false;
             wallSlide = false;
@@ -288,7 +288,7 @@ public class Movement : MonoBehaviour
             }
         }
 
-        if (Input.GetButtonDown(climbButton) && !hasDashed)
+        if (Input.GetButtonDown(dashButton) && !hasDashed)
         {
             //Noah and Liam - Dash while not moving
             if (Modified && xRaw == 0 && yRaw == 0)
