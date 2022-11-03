@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,6 +18,11 @@ public class Movement : MonoBehaviour
     public float volume;
     //Elizabeth - Get sprite renderer to change color when dash is used
     public SpriteRenderer renderer;
+    // Liam - Get Virtual Cams to shake when ground pounding
+    public GameObject Vcam1;
+    public GameObject Vcam2;
+    public GameObject Vcam3;
+    public GameObject Vcam4;
 
     [Space]
     [Header("Stats")]
@@ -84,6 +89,7 @@ public class Movement : MonoBehaviour
         anim = GetComponentInChildren<AnimationScript>();
         // Zac - GetComponent to actually get the audio sources
         audioSource = GetComponent<AudioSource>();
+
         Base();
     }
 
@@ -362,6 +368,10 @@ public class Movement : MonoBehaviour
         {
             Camera.main.transform.DOComplete();
             Camera.main.transform.DOShakePosition(.2f, .5f, 14, 90, false, true);
+            Vcam1.transform.DOShakePosition(.2f, .5f, 14, 90, false, true);
+            Vcam2.transform.DOShakePosition(.2f, .5f, 14, 90, false, true);
+            Vcam3.transform.DOShakePosition(.2f, .5f, 14, 90, false, true);
+            Vcam4.transform.DOShakePosition(.2f, .5f, 14, 90, false, true);
             // Zac- Where the ground hit audio will play
             audioSource.Play();
         }
@@ -379,6 +389,10 @@ public class Movement : MonoBehaviour
     {
         Camera.main.transform.DOComplete();
         Camera.main.transform.DOShakePosition(.2f, .5f, 14, 90, false, true);
+        Vcam1.transform.DOShakePosition(.2f, .5f, 14, 90, false, true);
+        Vcam2.transform.DOShakePosition(.2f, .5f, 14, 90, false, true);
+        Vcam3.transform.DOShakePosition(.2f, .5f, 14, 90, false, true);
+        Vcam4.transform.DOShakePosition(.2f, .5f, 14, 90, false, true);
         FindObjectOfType<RippleEffect>().Emit(Camera.main.WorldToViewportPoint(transform.position));
 
         hasDashed = true;
