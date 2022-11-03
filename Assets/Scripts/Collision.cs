@@ -37,7 +37,7 @@ public class Collision : MonoBehaviour
     void Update()
     {
         //Tai Wen - Modified ground collision detection to remedy edge cases (change from circle to area overlap)
-        onGround = GetComponent<Movement>().Modified ? Physics2D.OverlapArea((Vector2)transform.position + bottomOffset + new Vector2(-groundCollisionWidth / 2, -groundCollisionHeight / 2),
+        onGround = (GetComponent<Movement>().Modified || GetComponent<Movement>().ModifiedD) ? Physics2D.OverlapArea((Vector2)transform.position + bottomOffset + new Vector2(-groundCollisionWidth / 2, -groundCollisionHeight / 2),
             (Vector2)transform.position + bottomOffset + new Vector2(groundCollisionWidth / 2, groundCollisionHeight / 2), groundLayer)
             : Physics2D.OverlapCircle((Vector2)transform.position + bottomOffset, collisionRadius, groundLayer);
         onWall = Physics2D.OverlapCircle((Vector2)transform.position + rightOffset, collisionRadius, groundLayer)
@@ -47,16 +47,16 @@ public class Collision : MonoBehaviour
         onLeftWall = Physics2D.OverlapCircle((Vector2)transform.position + leftOffset, collisionRadius, groundLayer);
 
         // Tai Wen - Modified to keep memory of wall side when off wall.
-        if (onRightWall && GetComponent<Movement>().Modified)
+        if (onRightWall && (GetComponent<Movement>().Modified || GetComponent<Movement>().Modified))
         {
             wallSide = -1;
         }
-        else if (onLeftWall && GetComponent<Movement>().Modified)
+        else if (onLeftWall && (GetComponent<Movement>().Modified || GetComponent<Movement>().ModifiedD))
         {
             wallSide = 1;
         }
 
-        if (!GetComponent<Movement>().Modified)
+        if (!GetComponent<Movement>().Modified || !GetComponent<Movement>().ModifiedD)
             wallSide = onRightWall ? -1 : 1;
     }
 
@@ -67,7 +67,7 @@ public class Collision : MonoBehaviour
         var positions = new Vector2[] { bottomOffset, rightOffset, leftOffset };
 
         // Tai Wen - Changed the wire frame for the ground collision (circle to rectangle)
-        if (GetComponent<Movement>().Modified)
+        if (GetComponent<Movement>().Modified || GetComponent<Movement>().ModifiedD)
         {
             Gizmos.DrawWireCube((Vector2)transform.position + bottomOffset, new Vector2(groundCollisionWidth, groundCollisionHeight));
         }
