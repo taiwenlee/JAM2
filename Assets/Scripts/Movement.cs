@@ -103,6 +103,7 @@ public class Movement : MonoBehaviour
         wallJumpLerp = 5;
         dashSpeed = 40;
         Modified = false;
+        ModifiedD = false;
         fallspeed = 21;
         coyoteTime = 0f;
         jumpBufferTime = 0f;
