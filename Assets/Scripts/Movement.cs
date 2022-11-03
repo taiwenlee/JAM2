@@ -16,6 +16,8 @@ public class Movement : MonoBehaviour
     public AudioClip clip2;
     public AudioClip clip3;
     public float volume;
+    //Elizabeth - Get sprite renderer to change color when dash is used
+    public SpriteRenderer renderer;
 
     [Space]
     [Header("Stats")]
@@ -146,6 +148,14 @@ public class Movement : MonoBehaviour
 
         Walk(dir);
         anim.SetHorizontalMovement(x, y, rb.velocity.y);
+
+        //Elizabeth - if dash has been used, turn character red
+        if(Modified && hasDashed) {
+            renderer.color = Color.red;
+        }
+        else {
+            renderer.color = Color.white;
+        } 
 
         //Elizabeth - Changes control scheme when modified or not
         if(Modified) {
