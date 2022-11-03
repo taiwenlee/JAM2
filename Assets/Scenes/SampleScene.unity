@@ -23577,7 +23577,6 @@ GameObject:
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
   - component: {fileID: 519420034}
-  - component: {fileID: 519420035}
   m_Layer: 9
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -23619,7 +23618,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 0
+  orthographic: 1
   orthographic size: 5.96
   m_Depth: -1
   m_CullingMask:
@@ -23711,26 +23710,6 @@ MonoBehaviour:
   waveSpeed: 1.3
   dropInterval: 0.5
   shader: {fileID: 4800000, guid: 162fe242d486f4dab90ed53db15b9c19, type: 3}
---- !u!114 &519420035
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 519420028}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a160d838ff8b4b4693ac20007e008c7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_AssetsPPU: 21
-  m_RefResolutionX: 326
-  m_RefResolutionY: 180
-  m_UpscaleRT: 1
-  m_PixelSnapping: 0
-  m_CropFrameX: 0
-  m_CropFrameY: 0
-  m_StretchFill: 0
 --- !u!1 &609660351
 GameObject:
   m_ObjectHideFlags: 0
@@ -56348,7 +56327,7 @@ GameObject:
   - component: {fileID: 1018048156}
   - component: {fileID: 1018048155}
   m_Layer: 0
-  m_Name: Virtual Camera1
+  m_Name: Virtual Camera4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -60121,7 +60100,7 @@ GameObject:
   - component: {fileID: 1727152682}
   - component: {fileID: 1727152681}
   m_Layer: 0
-  m_Name: Virtual Camera1
+  m_Name: Virtual Camera3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
