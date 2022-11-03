@@ -8166,6 +8166,10 @@ MonoBehaviour:
   clip3: {fileID: 8300000, guid: 8ce3e14c38751e841a89194c4d469f4d, type: 3}
   volume: 0
   renderer: {fileID: 205110261}
+  Vcam1: {fileID: 1509722570}
+  Vcam2: {fileID: 1979048675}
+  Vcam3: {fileID: 1922679757}
+  Vcam4: {fileID: 1593393350}
   speed: 7
   jumpForce: 12
   slideSpeed: 1
@@ -56252,7 +56256,7 @@ GameObject:
   - component: {fileID: 995944475}
   m_Layer: 0
   m_Name: Virtual Camera1
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -56341,7 +56345,7 @@ GameObject:
   - component: {fileID: 1018048155}
   m_Layer: 0
   m_Name: Virtual Camera4
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -59921,7 +59925,7 @@ GameObject:
   - component: {fileID: 1593393352}
   - component: {fileID: 1593393351}
   m_Layer: 2
-  m_Name: Leve4
+  m_Name: Level4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -60126,7 +60130,7 @@ GameObject:
   - component: {fileID: 1727152681}
   m_Layer: 0
   m_Name: Virtual Camera3
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -60397,7 +60401,7 @@ GameObject:
   - component: {fileID: 1897600669}
   m_Layer: 0
   m_Name: Virtual Camera2
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
