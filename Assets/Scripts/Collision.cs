@@ -56,7 +56,7 @@ public class Collision : MonoBehaviour
             wallSide = 1;
         }
 
-        if (!GetComponent<Movement>().Modified || !GetComponent<Movement>().ModifiedD)
+        if (!GetComponent<Movement>().Modified && !GetComponent<Movement>().ModifiedD)
             wallSide = onRightWall ? -1 : 1;
     }
 
