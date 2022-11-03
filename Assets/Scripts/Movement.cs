@@ -37,7 +37,7 @@ public class Movement : MonoBehaviour
     // Liam - Ground shake fall velocity threshold
     public float fallspeed = 21;
     // Tai Wen - Time given for players to jump after falling off a platform
-    public float cyototeTime = 0f;
+    public float coyoteTime = 0f;
     // Tai Wen - Time given for players to jump before touching the ground
     public float jumpBufferTime = 0f;
     // Tai Wen - Strength given to the edge nudge
@@ -64,8 +64,8 @@ public class Movement : MonoBehaviour
     private bool hasDashed;
     // Liam - variable getting max fall speed
     private float maxFall = 0;
-    // Tai Wen - counter for cyotote time
-    private float cyototeTimeCounter;
+    // Tai Wen - counter for coyote time
+    private float coyoteTimeCounter;
     // Tai Wen - counter for jump buffer time
     private float jumpBufferCounter;
     // Tai Wen - counter for edge nudge time
@@ -104,7 +104,7 @@ public class Movement : MonoBehaviour
         dashSpeed = 40;
         Modified = false;
         fallspeed = 21;
-        cyototeTime = 0f;
+        coyoteTime = 0f;
         jumpBufferTime = 0f;
         edgeNudgeStrength = 0f;
         edgeNudgeTime = 0f;
@@ -122,7 +122,7 @@ public class Movement : MonoBehaviour
         Modified = true;
         ModifiedD = false;
         fallspeed = 21;
-        cyototeTime = 0.05f;
+        coyoteTime = 0.05f;
         jumpBufferTime = 0.3f;
         edgeNudgeStrength = 7f;
         edgeNudgeTime = 0.05f;
@@ -140,7 +140,7 @@ public class Movement : MonoBehaviour
         ModifiedD = true;
         Modified = false;
         fallspeed = 18;
-        cyototeTime = 0.05f;
+        coyoteTime = 0.1f;
         jumpBufferTime = 0.3f;
         edgeNudgeStrength = 10f;
         edgeNudgeTime = 0.01f;
@@ -177,14 +177,14 @@ public class Movement : MonoBehaviour
 
         }
 
-        // Tai Wen - updates cyotote time counter
+        // Tai Wen - updates coyote time counter
         if (coll.onGround)
         {
-            cyototeTimeCounter = cyototeTime;
+            coyoteTimeCounter = coyoteTime;
         }
         else
         {
-            cyototeTimeCounter -= Time.deltaTime;
+            coyoteTimeCounter -= Time.deltaTime;
         }
 
         // Tai Wen - updates jump buffer counter
@@ -197,9 +197,9 @@ public class Movement : MonoBehaviour
             jumpBufferCounter -= Time.deltaTime;
         }
 
-        // Tai Wen - resets cyotote counter if player jumps
+        // Tai Wen - resets coyote counter if player jumps
         if (Input.GetButtonUp("Jump") && rb.velocity.y > 0)
-            cyototeTimeCounter = -1f;
+            coyoteTimeCounter = -1f;
 
         // Liam - updates maxFall variable to have highest downward velocity
         if (rb.velocity.y < maxFall)
@@ -295,8 +295,8 @@ public class Movement : MonoBehaviour
         {
             anim.SetTrigger("jump");
 
-            // Tai Wen - changed from checking for ground collision to checking for cyotote counter
-            if (cyototeTimeCounter >= 0f)
+            // Tai Wen - changed from checking for ground collision to checking for coyote counter
+            if (coyoteTimeCounter >= 0f)
             {
                 Jump(Vector2.up, false);
                 jumpBufferCounter = -1f;   // Tai Wen - resets jump buffer counter
