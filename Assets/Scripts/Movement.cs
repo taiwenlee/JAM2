@@ -583,4 +583,9 @@ public class Movement : MonoBehaviour
     {
         gameObject.transform.position = new Vector3(-9.5f, -3f, 0f);
     }
+
+    public void Exit()
+    {
+        Application.Quit();
+    }
 }
