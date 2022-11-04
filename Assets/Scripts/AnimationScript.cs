@@ -29,12 +29,11 @@ public class AnimationScript : MonoBehaviour
         anim.SetBool("canMove", move.canMove);
         anim.SetBool("isDashing", move.isDashing);
         //Elizabeth - Set animation changes to trigger if modified version enable
-        anim.SetBool("Modified", move.Modified);
-        anim.SetBool("Modified", move.ModifiedD);
+        anim.SetBool("Modified", (move.Modified || move.ModifiedD));
 
     }
 
-    public void SetHorizontalMovement(float x,float y, float yVel)
+    public void SetHorizontalMovement(float x, float y, float yVel)
     {
         anim.SetFloat("HorizontalAxis", x);
         anim.SetFloat("VerticalAxis", y);
