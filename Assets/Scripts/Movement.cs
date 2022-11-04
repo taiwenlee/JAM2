@@ -160,21 +160,25 @@ public class Movement : MonoBehaviour
         anim.SetHorizontalMovement(x, y, rb.velocity.y);
 
         //Elizabeth - if dash has been used, turn character red
-        if((Modified || ModifiedD) && hasDashed) {
+        if ((Modified || ModifiedD) && hasDashed)
+        {
             renderer.color = Color.cyan;
         }
-        else {
+        else
+        {
             renderer.color = Color.white;
-        } 
+        }
 
         //Elizabeth - Changes control scheme when modified or not
-        if(Modified || ModifiedD) {
+        if (Modified || ModifiedD)
+        {
             climbButton = "Fire1";
             dashButton = "Fire3";
         }
-        else{
-            climbButton = "Fire5";
-            dashButton = "Fire4";
+        else
+        {
+            climbButton = "Fire1";
+            dashButton = "Fire3";
 
         }
 
@@ -268,8 +272,9 @@ public class Movement : MonoBehaviour
 
             rb.velocity = new Vector2(rb.velocity.x, y * (speed * (speedModifier)));
 
-            if(ModifiedD){
-                rb.velocity = new Vector2(rb.velocity.x, y * (speed * (speedModifier+.25f)));
+            if (ModifiedD)
+            {
+                rb.velocity = new Vector2(rb.velocity.x, y * (speed * (speedModifier + .25f)));
             }
         }
         else
