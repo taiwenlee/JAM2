@@ -15,7 +15,7 @@ public class Movement : MonoBehaviour
     public AudioClip clip;
     public AudioClip clip2;
     public AudioClip clip3;
-    public float volume;
+    public float vfxVolume {get; set;} = 0.5f;
     //Elizabeth - Get sprite renderer to change color when dash is used
     public SpriteRenderer renderer;
     // Liam - Get Virtual Cams to shake when ground pounding
@@ -169,19 +169,6 @@ public class Movement : MonoBehaviour
             renderer.color = Color.white;
         }
 
-        //Elizabeth - Changes control scheme when modified or not
-        if (Modified || ModifiedD)
-        {
-            climbButton = "Fire1";
-            dashButton = "Fire3";
-        }
-        else
-        {
-            climbButton = "Fire1";
-            dashButton = "Fire3";
-
-        }
-
         // Tai Wen - updates coyote time counter
         if (coll.onGround)
         {
@@ -212,7 +199,7 @@ public class Movement : MonoBehaviour
             maxFall = rb.velocity.y;
         }
 
-        if (coll.onWall && Input.GetButton(climbButton) && canMove) //Elizabeth - using dashButton/climbButton instead of string name, to allow control changes
+        if (coll.onWall && Input.GetButton("Grab") && canMove) //Elizabeth - using dashButton/climbButton instead of string name, to allow control changes
         {
             if (side != coll.wallSide)
                 anim.Flip(side * -1);
@@ -241,7 +228,7 @@ public class Movement : MonoBehaviour
                 anim.Flip(-coll.wallSide);
         }
 
-        if (Input.GetButtonUp(climbButton) || !coll.onWall || !canMove)
+        if (Input.GetButtonUp("Grab") || !coll.onWall || !canMove)
         {
             wallGrab = false;
             wallSlide = false;
@@ -321,7 +308,7 @@ public class Movement : MonoBehaviour
             }
         }
 
-        if (Input.GetButtonDown(dashButton) && !hasDashed)
+        if (Input.GetButtonDown("Dash") && !hasDashed)
         {
             //Noah and Liam - Dash while not moving
             if ((Modified || ModifiedD) && xRaw == 0 && yRaw == 0)
@@ -427,7 +414,7 @@ public class Movement : MonoBehaviour
         isDashing = true;
         if ((Modified || ModifiedD) && isDashing)
         {
-            audioSource.PlayOneShot(clip2);
+            audioSource.PlayOneShot(clip2, vfxVolume);
         }
 
 
@@ -517,7 +504,7 @@ public class Movement : MonoBehaviour
         if (Modified || ModifiedD)
         {
             StartCoroutine(JumpStretch());
-            audioSource.PlayOneShot(clip);
+            audioSource.PlayOneShot(clip, vfxVolume);
         }
         slideParticle.transform.parent.localScale = new Vector3(ParticleSide(), 1, 1);
         ParticleSystem particle = wall ? wallJumpParticle : jumpParticle;
