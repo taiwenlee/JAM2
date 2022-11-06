@@ -8315,7 +8315,7 @@ MonoBehaviour:
   audioSource: {fileID: 878358049}
   clip: {fileID: 8300000, guid: 428e4ecb684b0cb4ba882139962230c1, type: 3}
   clip2: {fileID: 8300000, guid: e5d7a0e17fdb35a47ba0ceb72b40719a, type: 3}
-  clip3: {fileID: 8300000, guid: 8ce3e14c38751e841a89194c4d469f4d, type: 3}
+  clip3: {fileID: 8300000, guid: 51689393b0f5c364cb977fbe33a3dac5, type: 3}
   renderer: {fileID: 205110261}
   Vcam1: {fileID: 1509722570}
   Vcam2: {fileID: 1979048675}

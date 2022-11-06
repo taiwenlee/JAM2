@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -366,7 +366,7 @@ public class Movement : MonoBehaviour
             Vcam3.transform.DOShakePosition(.2f, .5f, 14, 90, false, true);
             Vcam4.transform.DOShakePosition(.2f, .5f, 14, 90, false, true);
             // Zac- Where the ground hit audio will play
-            audioSource.Play();
+            audioSource.PlayOneShot(clip3, sfxVolume);
         }
         maxFall = 0;
 
