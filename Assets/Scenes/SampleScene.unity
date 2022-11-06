@@ -60152,7 +60152,7 @@ GameObject:
   - component: {fileID: 1566517719}
   - component: {fileID: 1566517720}
   m_Layer: 5
-  m_Name: VFX
+  m_Name: SFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -60234,7 +60234,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 213030897}
         m_TargetAssemblyTypeName: Movement, Assembly-CSharp
-        m_MethodName: set_vfxVolume
+        m_MethodName: set_sfxVolume
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
