@@ -15,7 +15,7 @@ public class Movement : MonoBehaviour
     public AudioClip clip;
     public AudioClip clip2;
     public AudioClip clip3;
-    public float vfxVolume {get; set;} = 0.5f;
+    public float sfxVolume {get; set;} = 0.5f;
     //Elizabeth - Get sprite renderer to change color when dash is used
     public SpriteRenderer renderer;
     // Liam - Get Virtual Cams to shake when ground pounding
@@ -414,7 +414,7 @@ public class Movement : MonoBehaviour
         isDashing = true;
         if ((Modified || ModifiedD) && isDashing)
         {
-            audioSource.PlayOneShot(clip2, vfxVolume);
+            audioSource.PlayOneShot(clip2, sfxVolume);
         }
 
 
@@ -504,7 +504,7 @@ public class Movement : MonoBehaviour
         if (Modified || ModifiedD)
         {
             StartCoroutine(JumpStretch());
-            audioSource.PlayOneShot(clip, vfxVolume);
+            audioSource.PlayOneShot(clip, sfxVolume);
         }
         slideParticle.transform.parent.localScale = new Vector3(ParticleSide(), 1, 1);
         ParticleSystem particle = wall ? wallJumpParticle : jumpParticle;
