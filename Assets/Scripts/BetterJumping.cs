@@ -16,10 +16,10 @@ public class BetterJumping : MonoBehaviour
     void Update()
     {
         // Nile - Increases fall multiplier if S key is held down; returns to normal on key up
-        if ((GetComponent<Movement>().Modified || GetComponent<Movement>().ModifiedD) && Input.GetKeyDown(KeyCode.S)) {
+        if ((GetComponent<Movement>().Modified || GetComponent<Movement>().ModifiedD) && Input.GetAxis("Vertical") < 0) {
             fallMultiplier = 24f;
         }
-        if (Input.GetKeyUp(KeyCode.S)) {
+        if (Input.GetAxis("Vertical") >= 0) {
             fallMultiplier = 2.5f;
         }
 
